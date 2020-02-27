@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<maven-jaxb2-plugin.version>0.14.0</maven-jaxb2-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -54,22 +55,22 @@
 			</plugin>
 			<!-- JAXB2 Maven Plugin -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jaxb2-maven-plugin</artifactId>
-				<version>1.6</version>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>${maven-jaxb2-plugin.version}</version>
 				<executions>
 					<execution>
-						<id>xjc</id>
 						<goals>
-							<goal>xjc</goal>
+							<goal>generate</goal>
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
-					<!-- The package of your generated sources -->
 					<schemaDirectory>${project.basedir}/src/main/resources/static</schemaDirectory>
-					<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
-					<clearOutputDir>false</clearOutputDir>
+					<generateDirectory>${project.basedir}/src/main/java</generateDirectory>
+					<schemaIncludes>
+						<include>*.xsd</include>
+					</schemaIncludes>
 				</configuration>
 			</plugin>
 
