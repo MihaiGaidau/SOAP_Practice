@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GetCourseDetailResponse xmlns="http://mgaidau.com/SOAPpractice"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://mgaidau.com/SOAPpractice course-details.xsd">
+    <CourseDetails>
+        <id>123</id>
+        <name>Spring in 28 minutes</name>
+        <description> Basics of Spring Framework</description>
+    </CourseDetails>
+</GetCourseDetailResponse>
