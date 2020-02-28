@@ -1,6 +1,7 @@
 package com.learnSOAP.practice.firstExample.soap;
 
 import com.learnSOAP.practice.firstExample.bean.Course;
+import com.learnSOAP.practice.firstExample.exception.CourseNotFoundException;
 import com.learnSOAP.practice.firstExample.service.CourseDetailsService;
 import com.mgaidau.soappractice.courses.*;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -26,6 +27,10 @@ public class CourseDetailsEndpoint {
 
         Course course = courseDetailsService.findById(request.getId());
 
+        if (course == null){
+            throw new CourseNotFoundException("Invalid Course Id "+ request.getId());
+        }
+
         return mapCourseDetails(course);
     }
 
@@ -35,6 +40,30 @@ public class CourseDetailsEndpoint {
         List<Course> courses = courseDetailsService.findAll();
 
         return mapAllCourseDetails(courses);
+    }
+
+    @PayloadRoot(localPart = "DeleteCourseByIdRequest", namespace = "http://mgaidau.com/SOAPpractice/courses")
+    @ResponsePayload
+    public DeleteCourseByIdResponse deleteCourseByIdRequest(@RequestPayload DeleteCourseByIdRequest request){
+        DeleteCourseByIdResponse response = new DeleteCourseByIdResponse();
+        response.setStatus(courseDetailsService.deleteById(request.getId()) ? Status.SUCCESS:Status.FAILURE);
+        return response;
+    }
+
+    @PayloadRoot(localPart = "AddCourseRequest", namespace = "http://mgaidau.com/SOAPpractice/courses")
+    @ResponsePayload
+    public AddCourseResponse addCourseRequest(@RequestPayload AddCourseRequest request){
+
+        Course course = Course
+                .builder()
+                .id(request.getCourseDetails().getId())
+                .name(request.getCourseDetails().getName())
+                .description(request.getCourseDetails().getDescription())
+                .build();
+
+        AddCourseResponse addCourseResponse = new AddCourseResponse();
+        addCourseResponse.setStatus(courseDetailsService.addCourse(course) ? Status.SUCCESS :Status.FAILURE);
+        return addCourseResponse;
     }
 
 
@@ -61,16 +90,4 @@ public class CourseDetailsEndpoint {
         response.getCourseDetails().addAll(courseDetails);
         return response;
     }
-
-    @PayloadRoot(localPart = "DeleteCourseByIdRequest", namespace = "http://mgaidau.com/SOAPpractice/courses")
-    @ResponsePayload
-    public DeleteCourseByIdResponse deleteCourseByIdRequest(@RequestPayload DeleteCourseByIdRequest request){
-        DeleteCourseByIdResponse response = new DeleteCourseByIdResponse();
-        response.setDeleted(courseDetailsService.deleteById(request.getId()));
-        return response;
-    }
-
-
-
-
 }

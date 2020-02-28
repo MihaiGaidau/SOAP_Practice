@@ -51,6 +51,15 @@ public class CourseDetailsService {
         return false;
     }
 
+    public boolean addCourse(Course course){
+        if (existCourse(course))
+            return false;
+        courses.add(course);
+        return true;
+    }
 
+    public boolean existCourse(Course course){
+        return findById(course.getId()) != null;
+    }
 
 }
