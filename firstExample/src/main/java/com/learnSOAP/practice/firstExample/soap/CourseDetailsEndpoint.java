@@ -29,6 +29,15 @@ public class CourseDetailsEndpoint {
         return mapCourseDetails(course);
     }
 
+    @PayloadRoot(localPart = "GetAllCourseDetailsRequest", namespace = "http://mgaidau.com/SOAPpractice/courses")
+    @ResponsePayload
+    public GetAllCourseDetailsResponse processAllCourseDetailsRequest(@RequestPayload GetAllCourseDetailsRequest request){
+        List<Course> courses = courseDetailsService.findAll();
+
+        return mapAllCourseDetails(courses);
+    }
+
+
     private CourseDetails mapCourse(Course course) {
         CourseDetails courseDetails = new CourseDetails();
         courseDetails.setId(course.getId());
@@ -36,18 +45,16 @@ public class CourseDetailsEndpoint {
         courseDetails.setDescription(course.getDescription());
         return courseDetails;
     }
+
     private GetCourseDetailsResponse mapCourseDetails(Course course) {
         GetCourseDetailsResponse response = new GetCourseDetailsResponse();
         response.setCourseDetails(mapCourse(course));
         return response;
     }
 
-    @PayloadRoot(localPart = "GetAllCourseDetailsRequest", namespace = "http://mgaidau.com/SOAPpractice/courses")
-    @ResponsePayload
-    public GetAllCourseDetailsResponse processCourseDetailsRequest(@RequestPayload GetAllCourseDetailsRequest request){
-        List<Course> courses = courseDetailsService.findAll();
-        List<CourseDetails> courseDetails = new ArrayList<>();
+    private GetAllCourseDetailsResponse mapAllCourseDetails(List<Course> courses) {
         GetAllCourseDetailsResponse response = new GetAllCourseDetailsResponse();
+        List<CourseDetails> courseDetails = new ArrayList<>();
         for (Course course:courses){
             courseDetails.add(mapCourse(course));
         }
@@ -57,8 +64,7 @@ public class CourseDetailsEndpoint {
 
     @PayloadRoot(localPart = "DeleteCourseByIdRequest", namespace = "http://mgaidau.com/SOAPpractice/courses")
     @ResponsePayload
-    public DeleteCourseByIdResponse processCourseDetailsRequest(@RequestPayload DeleteCourseByIdRequest request){
-
+    public DeleteCourseByIdResponse deleteCourseByIdRequest(@RequestPayload DeleteCourseByIdRequest request){
         DeleteCourseByIdResponse response = new DeleteCourseByIdResponse();
         response.setDeleted(courseDetailsService.deleteById(request.getId()));
         return response;
