@@ -2,13 +2,15 @@ package com.learnSOAP.practice.firstExample.soap;
 
 import com.learnSOAP.practice.firstExample.bean.Course;
 import com.learnSOAP.practice.firstExample.service.CourseDetailsService;
-import com.mgaidau.soappractice.courses.CourseDetails;
-import com.mgaidau.soappractice.courses.GetCourseDetailsRequest;
-import com.mgaidau.soappractice.courses.GetCourseDetailsResponse;
+import com.mgaidau.soappractice.courses.*;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Endpoint
 public class CourseDetailsEndpoint {
@@ -37,6 +39,28 @@ public class CourseDetailsEndpoint {
     private GetCourseDetailsResponse mapCourseDetails(Course course) {
         GetCourseDetailsResponse response = new GetCourseDetailsResponse();
         response.setCourseDetails(mapCourse(course));
+        return response;
+    }
+
+    @PayloadRoot(localPart = "GetAllCourseDetailsRequest", namespace = "http://mgaidau.com/SOAPpractice/courses")
+    @ResponsePayload
+    public GetAllCourseDetailsResponse processCourseDetailsRequest(@RequestPayload GetAllCourseDetailsRequest request){
+        List<Course> courses = courseDetailsService.findAll();
+        List<CourseDetails> courseDetails = new ArrayList<>();
+        GetAllCourseDetailsResponse response = new GetAllCourseDetailsResponse();
+        for (Course course:courses){
+            courseDetails.add(mapCourse(course));
+        }
+        response.getCourseDetails().addAll(courseDetails);
+        return response;
+    }
+
+    @PayloadRoot(localPart = "DeleteCourseByIdRequest", namespace = "http://mgaidau.com/SOAPpractice/courses")
+    @ResponsePayload
+    public DeleteCourseByIdResponse processCourseDetailsRequest(@RequestPayload DeleteCourseByIdRequest request){
+
+        DeleteCourseByIdResponse response = new DeleteCourseByIdResponse();
+        response.setDeleted(courseDetailsService.deleteById(request.getId()));
         return response;
     }
 

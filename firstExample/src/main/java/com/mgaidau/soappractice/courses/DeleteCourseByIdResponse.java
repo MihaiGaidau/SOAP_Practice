@@ -10,7 +10,6 @@ package com.mgaidau.soappractice.courses;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="CourseDetails" type="{http://mgaidau.com/SOAPpractice/courses}CourseDetails"/&gt;
+ *         &lt;element name="deleted" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -36,36 +35,27 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "courseDetails"
+    "deleted"
 })
-@XmlRootElement(name = "GetCourseDetailsResponse")
-public class GetCourseDetailsResponse {
+@XmlRootElement(name = "DeleteCourseByIdResponse")
+public class DeleteCourseByIdResponse {
 
-    @XmlElement(name = "CourseDetails", required = true)
-    protected CourseDetails courseDetails;
+    protected boolean deleted;
 
     /**
-     * Gets the value of the courseDetails property.
+     * Gets the value of the deleted property.
      * 
-     * @return
-     *     possible object is
-     *     {@link CourseDetails }
-     *     
      */
-    public CourseDetails getCourseDetails() {
-        return courseDetails;
+    public boolean isDeleted() {
+        return deleted;
     }
 
     /**
-     * Sets the value of the courseDetails property.
+     * Sets the value of the deleted property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link CourseDetails }
-     *     
      */
-    public void setCourseDetails(CourseDetails value) {
-        this.courseDetails = value;
+    public void setDeleted(boolean value) {
+        this.deleted = value;
     }
 
 }
