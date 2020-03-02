@@ -108,22 +108,22 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 //    }
 
     //decrypt incoming certificates or sign outgoing messages, you would use a key store
-    @Bean
-    public KeyStoreCallbackHandler keyStoreHandler(){
-        KeyStoreCallbackHandler handler = new KeyStoreCallbackHandler();
-        handler.setKeyStore(keyStore().getObject());
-        handler.setPrivateKeyPassword("changeIt");
-        return handler;
-
-    }
-
-    @Bean
-    public KeyStoreFactoryBean keyStore() {
-        KeyStoreFactoryBean keyStoreFactoryBean = new KeyStoreFactoryBean();
-        keyStoreFactoryBean.setLocation(new ClassPathResource("keystore.jks"));
-        keyStoreFactoryBean.setPassword("changeIt");
-        return keyStoreFactoryBean;
-    }
+//    @Bean
+//    public KeyStoreCallbackHandler keyStoreHandler(){
+//        KeyStoreCallbackHandler handler = new KeyStoreCallbackHandler();
+//        handler.setKeyStore(keyStore().getObject());
+//        handler.setPrivateKeyPassword("changeIt");
+//        return handler;
+//
+//    }
+//
+//    @Bean
+//    public KeyStoreFactoryBean keyStore() {
+//        KeyStoreFactoryBean keyStoreFactoryBean = new KeyStoreFactoryBean();
+//        keyStoreFactoryBean.setLocation(new ClassPathResource("keystore.jks"));
+//        keyStoreFactoryBean.setPassword("changeIt");
+//        return keyStoreFactoryBean;
+//    }
 
     @Override
     public void addInterceptors(List<EndpointInterceptor> interceptors) {
