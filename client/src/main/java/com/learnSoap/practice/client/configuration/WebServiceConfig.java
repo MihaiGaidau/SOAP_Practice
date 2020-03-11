@@ -3,76 +3,93 @@ package com.learnSoap.practice.client.configuration;
 //Enable Sprin Web Services
 //Spring  Configuration
 
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
-import org.springframework.ws.server.EndpointInterceptor;
-import org.springframework.ws.soap.security.xwss.XwsSecurityInterceptor;
-import org.springframework.ws.soap.security.xwss.callback.SimplePasswordValidationCallbackHandler;
-import org.springframework.ws.transport.http.MessageDispatcherServlet;
-import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
-import org.springframework.xml.xsd.SimpleXsdSchema;
-import org.springframework.xml.xsd.XsdSchema;
+import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor;
+import org.springframework.ws.soap.security.wss4j2.support.CryptoFactoryBean;
 
-import java.util.Collections;
-import java.util.List;
+import java.io.IOException;
 
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
+
+    @Value("${client.default-uri}")
+    private String defaultUri;
+
+    @Value("${client.signature.key-store}")
+    private Resource keyStore;
+
+    @Value("${client.signature.key-store-password}")
+    private String keyStorePassword;
+
+    @Value("${client.signature.key-alias}")
+    private String keyAlias;
+
+    @Value("${client.signature.key-password}")
+    private String keyPassword;
 
     //MessageDispatcher
     //ApplicationContext
     //url
 
     @Bean
-    public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
-        //mapping to url
-        MessageDispatcherServlet messageDispatcherServlet = new MessageDispatcherServlet();
-        messageDispatcherServlet.setApplicationContext(applicationContext);
-        messageDispatcherServlet.setTransformSchemaLocations(true);
-        return new ServletRegistrationBean(messageDispatcherServlet, "/ws/*");
-    }
+    Jaxb2Marshaller jaxb2Marshaller() {
+        Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
+        jaxb2Marshaller.setContextPath("com.mgaidau.soappractice.courses");
 
-    @Bean(name = "courses")
-    DefaultWsdl11Definition defaultWsdl11Definition
-            (XsdSchema coursesSchema) {
-        DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
-        definition.setPortTypeName("CoursePort");
-        definition.setTargetNamespace("http://gzaharia.com/SOAPpractice");
-        definition.setLocationUri("/ws");
-        definition.setSchema(coursesSchema);
-        return definition;
+        return jaxb2Marshaller;
     }
 
     @Bean
-    public XsdSchema coursesSchema() {
-        return new SimpleXsdSchema(new ClassPathResource("/static/course-details.xsd"));
+    public WebServiceTemplate webServiceTemplate() throws Exception {
+        WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
+        webServiceTemplate.setMarshaller(jaxb2Marshaller());
+        webServiceTemplate.setUnmarshaller(jaxb2Marshaller());
+        webServiceTemplate.setDefaultUri(defaultUri);
+
+        // register the signatureSecurityInterceptor
+        ClientInterceptor[] interceptors = new ClientInterceptor[]{clientSecurityInterceptor()};
+        webServiceTemplate.setInterceptors(interceptors);
+
+        return webServiceTemplate;
     }
 
-    //XwsSecurityInterceptor
     @Bean
-    public XwsSecurityInterceptor securityInterceptor() {
-        XwsSecurityInterceptor securityInterceptor = new XwsSecurityInterceptor();
-        securityInterceptor.setCallbackHandler(callbackHandler());
-        securityInterceptor.setPolicyConfiguration(new ClassPathResource("securityPolicy.xml"));
+    public Wss4jSecurityInterceptor clientSecurityInterceptor() throws Exception {
+        Wss4jSecurityInterceptor securityInterceptor = new Wss4jSecurityInterceptor();
+        // add a time stamp and sign the request
+        securityInterceptor.setSecurementActions("Signature Timestamp");
+        // alias of the private key
+        securityInterceptor.setSecurementUsername(keyAlias);
+        // password of the private key
+        securityInterceptor.setSecurementPassword(keyPassword);
+        // key store that contains the private key
+        securityInterceptor.setSecurementSignatureCrypto(clientKeyStoreCryptoFactoryBean().getObject());
+
+        // check the time stamp and signature of the request
+        securityInterceptor.setValidationActions("Signature Timestamp");
+        // trust store that contains the trusted certificate
+        securityInterceptor
+                .setValidationSignatureCrypto(clientKeyStoreCryptoFactoryBean().getObject());
+
         return securityInterceptor;
     }
 
     @Bean
-    public SimplePasswordValidationCallbackHandler callbackHandler() {
-        SimplePasswordValidationCallbackHandler handler = new SimplePasswordValidationCallbackHandler();
-        handler.setUsersMap(Collections.singletonMap("user","password"));
-        return handler;
-    }
+    public CryptoFactoryBean clientKeyStoreCryptoFactoryBean() throws IOException {
+        CryptoFactoryBean cryptoFactoryBean = new CryptoFactoryBean();
+        cryptoFactoryBean.setKeyStoreLocation(keyStore);
+        cryptoFactoryBean.setKeyStorePassword(keyStorePassword);
 
-    @Override
-    public void addInterceptors(List<EndpointInterceptor> interceptors) {
-        interceptors.add(securityInterceptor());
+        return cryptoFactoryBean;
     }
 
 }

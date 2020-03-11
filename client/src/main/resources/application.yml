@@ -1,0 +1,7 @@
+client:
+  default-uri: http://192.168.16.91:8080/ws/courses.wsdl
+  signature:
+    key-store: classpath:keys/client.p12
+    key-store-password: 123qweASD
+    key-alias: client
+    key-password: 123qweASD
