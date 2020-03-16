@@ -88,16 +88,63 @@
             <artifactId>activation</artifactId>
             <version>1.1.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-runtime</artifactId>
+            <version>1.11.1</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+<!--            <plugin>-->
+<!--                <groupId>org.jvnet.jaxb2.maven2</groupId>-->
+<!--                <artifactId>maven-jaxb2-plugin</artifactId>-->
+<!--                <version>${maven-jaxb2-plugin.version}</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>generate</id>-->
+<!--                        <goals>-->
+<!--                            <goal>generate</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <schemaLanguage>WSDL</schemaLanguage>-->
+<!--                    <generateDirectory>${project.basedir}/src/main/java</generateDirectory>-->
+<!--                    <strict>false</strict>-->
+<!--                    <extension>true</extension>-->
+<!--                    <plugins>-->
+<!--                        <plugin>-->
+<!--                            <groupId>org.jvnet.jaxb2_commons</groupId>-->
+<!--                            <artifactId>jaxb2-basics</artifactId>-->
+<!--                            <version>0.6.2</version>-->
+<!--                        </plugin>-->
+<!--                        <plugin>-->
+<!--                            <groupId>org.jvnet.jaxb2_commons</groupId>-->
+<!--                            <artifactId>jaxb2-basics-annotate</artifactId>-->
+<!--                            <version>0.6.2</version>-->
+<!--                        </plugin>-->
+<!--                    </plugins>-->
+<!--                    <args>-->
+<!--                        <arg>-Xannotate</arg>-->
+<!--                        <arg>-XtoString</arg>-->
+<!--                    </args>-->
+<!--                    <schemas>-->
+<!--                        <schema>-->
+<!--                            <url>http://192.168.0.10:8080/EnrollmentStation-EnrollmentEJB/EnrollmentServiceImpl?wsdl</url>-->
+<!--                        </schema>-->
+<!--                    </schemas>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>${maven-jaxb2-plugin.version}</version>
+                <version>0.14.0</version>
                 <executions>
                     <execution>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -105,12 +152,42 @@
                 </executions>
                 <configuration>
                     <schemaLanguage>WSDL</schemaLanguage>
-                    <generateDirectory>${project.basedir}/src/main/java</generateDirectory>
+                    <args>
+                        <arg>-Xannotate</arg>
+                        <arg>-nv</arg>
+                    </args>
+                    <extension>true</extension>
+                    <forceRegenerate>true</forceRegenerate>
+                    <bindingDirectory>${basedir}/src/main/resources/</bindingDirectory>
+                    <bindingIncludes>
+                        <include>*.xjb</include>
+                    </bindingIncludes>
+                    <generateDirectory>${project.basedir}/src/main/java/</generateDirectory>
+
                     <schemas>
                         <schema>
-                            <url>http://192.168.16.91:8080/ws/courses.wsdl</url>
+                            <url>http://192.168.0.10:8080/EnrollmentStation-EnrollmentEJB/EnrollmentServiceImpl?wsdl</url>
                         </schema>
                     </schemas>
+                    <debug>true</debug>
+                    <verbose>true</verbose>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-basics</artifactId>
+                            <version>0.6.2</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-basics-annotate</artifactId>
+                            <version>0.6.2</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-namespace-prefix</artifactId>
+                            <version>1.1</version>
+                        </plugin>
+                    </plugins>
                 </configuration>
             </plugin>
 

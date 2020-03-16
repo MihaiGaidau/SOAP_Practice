@@ -43,7 +43,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     @Bean
     Jaxb2Marshaller jaxb2Marshaller() {
         Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
-        jaxb2Marshaller.setContextPath("com.mgaidau.soappractice.courses");
+        jaxb2Marshaller.setContextPath("se.snabbfoto.ejb");
 
         return jaxb2Marshaller;
     }
@@ -56,8 +56,8 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         webServiceTemplate.setDefaultUri(defaultUri);
 
         // register the signatureSecurityInterceptor
-        ClientInterceptor[] interceptors = new ClientInterceptor[]{clientSecurityInterceptor()};
-        webServiceTemplate.setInterceptors(interceptors);
+//        ClientInterceptor[] interceptors = new ClientInterceptor[]{clientSecurityInterceptor()};
+//        webServiceTemplate.setInterceptors(interceptors);
 
         return webServiceTemplate;
     }
