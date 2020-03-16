@@ -2,9 +2,7 @@ package com.learnSoap.practice.client.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ws.client.core.WebServiceTemplate;
-import se.snabbfoto.ejb.CaptureFingerprints;
-import se.snabbfoto.ejb.CaptureFingerprintsResponse;
-import se.snabbfoto.ejb.ObjectFactory;
+import se.snabbfoto.ejb.*;
 
 @Service
 public class FingerService {
@@ -24,6 +22,15 @@ public class FingerService {
         CaptureFingerprintsResponse response =
                 (CaptureFingerprintsResponse) webServiceTemplate2.marshalSendAndReceive(captureFingerprints);
         return response.getReturn();
+
+    }
+    public Fingerprint getFingerprint(int left, int right){
+        GetFingerprints getFingerprints = objectFactory.createGetFingerprints();
+        getFingerprints.setArg0((byte)left);
+        getFingerprints.setArg1((byte)right);
+        GetFingerprintsResponse getFingerprintsResponse =
+                (GetFingerprintsResponse) webServiceTemplate2.marshalSendAndReceive(getFingerprints);
+        return getFingerprintsResponse.getReturn();
 
     }
 }

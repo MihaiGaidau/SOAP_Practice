@@ -5,6 +5,7 @@ import com.learnSoap.practice.client.service.FingerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import se.snabbfoto.ejb.Fingerprint;
 import se.snabbfoto.ejb.Photo;
 import se.snabbfoto.ejb.Signature;
 
@@ -78,6 +79,12 @@ public class EnrollController {
 
 //        log.info("init" + document);
 
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getFinger")
+    public ResponseEntity<Fingerprint> getFinger(){
+        Fingerprint response = fingerService.getFingerprint(0,1);
         return ResponseEntity.ok(response);
     }
 
