@@ -162,11 +162,11 @@
                     <bindingIncludes>
                         <include>*.xjb</include>
                     </bindingIncludes>
-                    <generateDirectory>${project.basedir}/src/main/java/</generateDirectory>
+                    <generateDirectory>${project.basedir}/src/main/java/misa/generated</generateDirectory>
 
                     <schemas>
                         <schema>
-                            <url>http://192.168.0.10:8080/EnrollmentStation-EnrollmentEJB/EnrollmentServiceImpl?wsdl</url>
+                            <url>http://192.168.0.10:8080/EnrollmentStation-EnrollmentEJB/FingerprintServiceImpl?wsdl</url>
                         </schema>
                     </schemas>
                     <debug>true</debug>

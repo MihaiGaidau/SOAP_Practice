@@ -24,6 +24,9 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     @Value("${client.default-uri}")
     private String defaultUri;
 
+    @Value("${client.default-uri2}")
+    private String defaultUri2;
+
     @Value("${client.signature.key-store}")
     private Resource keyStore;
 
@@ -54,13 +57,23 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         webServiceTemplate.setMarshaller(jaxb2Marshaller());
         webServiceTemplate.setUnmarshaller(jaxb2Marshaller());
         webServiceTemplate.setDefaultUri(defaultUri);
+        return webServiceTemplate;
+    }
 
-        // register the signatureSecurityInterceptor
+        @Bean
+        public WebServiceTemplate webServiceTemplate2() throws Exception {
+            WebServiceTemplate webServiceTemplate2 = new WebServiceTemplate();
+            webServiceTemplate2.setMarshaller(jaxb2Marshaller());
+            webServiceTemplate2.setUnmarshaller(jaxb2Marshaller());
+            webServiceTemplate2.setDefaultUri(defaultUri2);
+
+            // register the signatureSecurityInterceptor
 //        ClientInterceptor[] interceptors = new ClientInterceptor[]{clientSecurityInterceptor()};
 //        webServiceTemplate.setInterceptors(interceptors);
 
-        return webServiceTemplate;
-    }
+            return webServiceTemplate2;
+        }
+
 
     @Bean
     public Wss4jSecurityInterceptor clientSecurityInterceptor() throws Exception {

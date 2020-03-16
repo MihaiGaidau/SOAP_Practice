@@ -620,4 +620,144 @@ public class ObjectFactory {
         return new UploadImageFileResponse();
     }
 
+    public NonExistentFingerprintException createNonExistentFingerprintException() {
+        return new NonExistentFingerprintException();
+    }
+
+    /**
+     * Create an instance of {@link CancelFingerprint }
+     *
+     */
+    public CancelFingerprint createCancelFingerprint() {
+        return new CancelFingerprint();
+    }
+
+    /**
+     * Create an instance of {@link CancelFingerprintResponse }
+     *
+     */
+    public CancelFingerprintResponse createCancelFingerprintResponse() {
+        return new CancelFingerprintResponse();
+    }
+
+    /**
+     * Create an instance of {@link CaptureFingerprints }
+     *
+     */
+    public CaptureFingerprints createCaptureFingerprints() {
+        return new CaptureFingerprints();
+    }
+
+    /**
+     * Create an instance of {@link CaptureFingerprintsResponse }
+     *
+     */
+    public CaptureFingerprintsResponse createCaptureFingerprintsResponse() {
+        return new CaptureFingerprintsResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetFingerprintDeviceInformation }
+     *
+     */
+    public GetFingerprintDeviceInformation createGetFingerprintDeviceInformation() {
+        return new GetFingerprintDeviceInformation();
+    }
+
+    /**
+     * Create an instance of {@link GetFingerprintDeviceInformationResponse }
+     *
+     */
+    public GetFingerprintDeviceInformationResponse createGetFingerprintDeviceInformationResponse() {
+        return new GetFingerprintDeviceInformationResponse();
+    }
+
+    /**
+     * Create an instance of {@link FingerprintDeviceInformation }
+     *
+     */
+    public FingerprintDeviceInformation createFingerprintDeviceInformation() {
+        return new FingerprintDeviceInformation();
+    }
+
+    /**
+     * Create an instance of {@link GetFingerprintRecordQuality }
+     *
+     */
+    public GetFingerprintRecordQuality createGetFingerprintRecordQuality() {
+        return new GetFingerprintRecordQuality();
+    }
+
+    /**
+     * Create an instance of {@link GetFingerprintRecordQualityFromSet }
+     *
+     */
+    public GetFingerprintRecordQualityFromSet createGetFingerprintRecordQualityFromSet() {
+        return new GetFingerprintRecordQualityFromSet();
+    }
+
+    /**
+     * Create an instance of {@link Fingerprint }
+     *
+     */
+    public Fingerprint createFingerprint() {
+        return new Fingerprint();
+    }
+
+    /**
+     * Create an instance of {@link GetFingerprintRecordQualityFromSetResponse }
+     *
+     */
+    public GetFingerprintRecordQualityFromSetResponse createGetFingerprintRecordQualityFromSetResponse() {
+        return new GetFingerprintRecordQualityFromSetResponse();
+    }
+
+    /**
+     * Create an instance of {@link FingerprintQualityDecision }
+     *
+     */
+    public FingerprintQualityDecision createFingerprintQualityDecision() {
+        return new FingerprintQualityDecision();
+    }
+
+    /**
+     * Create an instance of {@link GetFingerprintRecordQualityResponse }
+     *
+     */
+    public GetFingerprintRecordQualityResponse createGetFingerprintRecordQualityResponse() {
+        return new GetFingerprintRecordQualityResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetFingerprints }
+     *
+     */
+    public GetFingerprints createGetFingerprints() {
+        return new GetFingerprints();
+    }
+
+    /**
+     * Create an instance of {@link GetFingerprintsResponse }
+     *
+     */
+    public GetFingerprintsResponse createGetFingerprintsResponse() {
+        return new GetFingerprintsResponse();
+    }
+
+    /**
+     * Create an instance of {@link SetFingerprintInstruction }
+     *
+     */
+    public SetFingerprintInstruction createSetFingerprintInstruction() {
+        return new SetFingerprintInstruction();
+    }
+
+    /**
+     * Create an instance of {@link SetFingerprintInstructionResponse }
+     *
+     */
+    public SetFingerprintInstructionResponse createSetFingerprintInstructionResponse() {
+        return new SetFingerprintInstructionResponse();
+    }
+
 }
